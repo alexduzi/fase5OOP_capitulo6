@@ -6,6 +6,7 @@ import org.fintech.fiap.excecoes.SaldoException;
 import org.fintech.fiap.operacoes.OperacoesBancarias;
 import org.fintech.fiap.operacoes.OperacoesCliente;
 import org.fintech.fiap.operacoes.OperacoesCredito;
+import org.fintech.fiap.operacoes.OperacoesInvestimento;
 import org.fintech.fiap.operacoes.OperacoesTransacoes;
 
 import java.time.LocalDate;
@@ -115,18 +116,48 @@ public class Main {
         System.out.println("Status: " + fatura.getStatusPagamento());
         System.out.println();
 
-        // 7. Testando operações de transações
+        // 7. Testando operações de investimento
+        System.out.println("=== OPERAÇÕES DE INVESTIMENTO ===");
+        OperacoesInvestimento operacoesInvestimento = new OperacoesInvestimento(conta1);
+
+        // Simulando investimento
+        System.out.println("--- Simulação de Investimento ---");
+        operacoesInvestimento.simularInvestimento("CDB", 1000.0);
+        System.out.println();
+
+        // Realizando investimento
+        System.out.println("--- Realizar Investimento ---");
+        Investimento investimento = operacoesInvestimento.realizarInvestimento("CDB", 1000.0);
+        System.out.println("Investimento criado:");
+        System.out.println("ID: " + investimento.getInvestimentoId());
+        System.out.println("Tipo: " + investimento.getTipoInvstimento());
+        System.out.println("Valor: R$ " + String.format("%.2f", investimento.getValorAplicado()));
+        System.out.println("Cliente: " + investimento.getCliente().getNome());
+        System.out.println("Status: " + investimento.getStatus());
+        System.out.println();
+
+        // Consultando investimentos
+        System.out.println("--- Consultar Carteira ---");
+        operacoesInvestimento.consultarInvestimentos();
+        System.out.println();
+
+        // Resgatando investimento
+        System.out.println("--- Resgate de Investimento ---");
+        operacoesInvestimento.resgateInvestimento(investimento.getInvestimentoId());
+        System.out.println();
+
+        // 8. Testando operações de transações
         System.out.println("=== EXTRATO DE TRANSAÇÕES ===");
         OperacoesTransacoes operacoesTransacoes = new OperacoesTransacoes();
         operacoesTransacoes.imprimeTransacoes();
         System.out.println();
 
-        // 8. Criando outros objetos mock para demonstrar o modelo
+        // 9. Criando outros objetos mock para demonstrar o modelo
         System.out.println("=== OUTROS OBJETOS DO SISTEMA ===");
 
-        // Investimento
-        Investimento investimento = new Investimento(1L, cliente1, "CDB", 5000.0, 0.08, LocalDate.now().minusMonths(2), LocalDate.now().plusYears(2), "Ativo");
-        System.out.println("Investimento criado: " + investimento.getTipoInvstimento() + " - Valor: R$ " + String.format("%.2f", investimento.getValorAplicado()));
+        // Investimento mock para demonstrar
+        Investimento investimentoMock = new Investimento(1L, cliente1, "CDB", 5000.0, 0.08, LocalDate.now().minusMonths(2), LocalDate.now().plusYears(2), "Ativo");
+        System.out.println("Investimento mock criado: " + investimentoMock.getTipoInvstimento() + " - Valor: R$ " + String.format("%.2f", investimentoMock.getValorAplicado()));
 
         // Notificação
         Notificacao notificacao = new Notificacao(1L, cliente1, "Transação", "Transferência realizada com sucesso", java.time.Instant.now(), false);
