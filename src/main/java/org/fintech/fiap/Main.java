@@ -166,7 +166,5 @@ public class Main {
         // Parcela de empréstimo
         ParcelaEmprestimo parcela = new ParcelaEmprestimo(1L, emprestimo, 1, emprestimo.getValorParcela(), LocalDate.now().plusMonths(1), null, "Pendente");
         System.out.println("Primeira parcela do empréstimo: R$ " + String.format("%.2f", parcela.getValorParcela()) + " - Vencimento: " + parcela.getDataVencimento());
-
-        System.out.println("\n=== FIM DA DEMONSTRAÇÃO ===");
     }
 }
